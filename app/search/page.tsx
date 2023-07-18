@@ -2,7 +2,7 @@ import Header from "@/app/search/components/Header";
 import SearchSideBar from "@/app/search/components/SearchSideBar";
 import RestaurantCard from "@/app/search/components/RestaurantCard";
 
-import {PrismaClient, PRICE, Cuisine, Location} from '@prisma/client'
+import {PrismaClient, PRICE, Cuisine, Location, Review} from '@prisma/client'
 
 const prisma = new PrismaClient()
 
@@ -13,7 +13,8 @@ export interface RestaurantCardType {
     slug: string,
     cuisine: Cuisine,
     location: Location,
-    price: PRICE
+    price: PRICE,
+    reviews: Review[]
 }
 
 export interface SearchParams {
@@ -29,7 +30,8 @@ const select = {
     price: true,
     cuisine: true,
     location: true,
-    slug: true
+    slug: true,
+    reviews: true
 }
 
 const fetchLocations = () => {
