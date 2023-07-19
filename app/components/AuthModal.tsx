@@ -27,6 +27,22 @@ export default function AuthModal({isSignin}: {isSignin : boolean}) {
         return isSignin ? signinContent : signupContent
     }
 
+    const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>)  => {
+        setInputs({
+            ...inputs,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const [inputs, setInputs] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        city: "",
+        password: ""
+    })
+
     return (
         <div>
             <button className="bg-blue-400 text-white border p-1 px-4 rounded mr-3" onClick={handleOpen}>
@@ -49,7 +65,7 @@ export default function AuthModal({isSignin}: {isSignin : boolean}) {
                             <h2 className="text-2xl font-light text-center">
                                 {renderContent("Log into your account", "Create your open table account")}
                             </h2>
-                            <AuthModalInputs />
+                            <AuthModalInputs inputs={inputs} handleChangeInputs={handleChangeInput} isSignin={isSignin} />
                             <button className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400">
                                 {renderContent("Sign in", "Create account")}
                             </button>
