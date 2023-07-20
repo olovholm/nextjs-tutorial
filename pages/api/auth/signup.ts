@@ -2,11 +2,16 @@ import {NextApiRequest, NextApiResponse} from "next"
 import validator from "validator"
 
 import {PrismaClient} from "@prisma/client"
+import bcrypt from "bcrypt"
 
+
+const prisma = new PrismaClient()
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
+
+
 
     if (req.method === "POST") {
         const {firstName, lastName, email, phone, city, password} = req.body;
@@ -61,7 +66,6 @@ export default async function handler(
         }
 
         const getExistingEmailAddress = async () => {
-            const prisma = new PrismaClient()
             return prisma.user.findUnique({
                 where: {
                     email: {
@@ -76,6 +80,19 @@ export default async function handler(
                 errorMessage: "Already existing email address"
             })
         }
+
+        const hashedPassword = await bcrypt.hash(password, 10)
+
+        const user = await prisma.user.create({
+            data: {
+                first_name: firstName,
+                last_name: lastName,
+                password: hashedPassword,
+                city: city,
+                phone: phone,
+                email: email
+            }
+        })
 
         return res.status(200).json({
             status: "OK"
