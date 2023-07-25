@@ -21,7 +21,7 @@ export default function SearchBar() {
                 router.push(`search?city=${location}`)
                 setLocation("")
             }}>
-                Let's go
+                Let´s go
             </button>
         </div>
     )

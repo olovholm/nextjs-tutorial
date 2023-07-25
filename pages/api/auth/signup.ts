@@ -38,7 +38,7 @@ export default async function handler(
                 errorMessage: "Email is invalid "
             },
             {
-                valid: validator.isMobilePhone(email),
+                valid: validator.isMobilePhone(phone,["nb-NO"]),
                 errorMessage: "Phone number is invalid "
             },
             {
@@ -69,9 +69,7 @@ export default async function handler(
         const getExistingEmailAddress = async () => {
             return prisma.user.findUnique({
                 where: {
-                    email: {
-                        equals: email
-                    }
+                    email: email
                 }
             })
         }
@@ -106,4 +104,8 @@ export default async function handler(
             token: token
         })
     }
+
+    return res.status(404).json({
+        error: "Unknown endpoint"
+    })
 }

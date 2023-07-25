@@ -5,8 +5,9 @@ export default function Images({images}: {images: string[]}){
                 {images.length} Photos
             </h1>
             <div className="flex flex-wrap">
-               {images.map(image => (
+               {images.map((image,i) => (
                    <img
+                       key={i}
                        className="w-56 h-44 mr-1 mb-1"
                        src={image}
                        alt=""
