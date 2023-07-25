@@ -7,6 +7,7 @@ import Modal from '@mui/material/Modal';
 import {useEffect, useState} from "react"
 import AuthModalInputs from "@/app/components/AuthModalInputs";
 import {signin} from "next-auth/core/routes";
+import useAuth from "@/hooks/useAuth";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -23,6 +24,8 @@ export default function AuthModal({isSignin}: {isSignin : boolean}) {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const {signIn} = useAuth()
 
     const renderContent = (signinContent: string, signupContent: string) => {
         return isSignin ? signinContent : signupContent
@@ -62,6 +65,12 @@ export default function AuthModal({isSignin}: {isSignin : boolean}) {
 
     }, [inputs])
 
+    const handleClick = () => {
+        if(isSignin) {
+            signIn({email: inputs.email, password: inputs.password})
+        }
+    }
+
     return (
         <div>
             <button className="bg-blue-400 text-white border p-1 px-4 rounded mr-3" onClick={handleOpen}>
@@ -85,7 +94,7 @@ export default function AuthModal({isSignin}: {isSignin : boolean}) {
                                 {renderContent("Log into your account", "Create your open table account")}
                             </h2>
                             <AuthModalInputs inputs={inputs} handleChangeInputs={handleChangeInput} isSignin={isSignin} />
-                            <button className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400" disabled={disabled}>
+                            <button className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400" disabled={disabled} onClick={handleClick}>
                                 {renderContent("Sign in", "Create account")}
                             </button>
                         </div>
