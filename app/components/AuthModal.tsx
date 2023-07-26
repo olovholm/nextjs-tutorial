@@ -4,10 +4,11 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import {useEffect, useState} from "react"
+import {useEffect, useState, useContext} from "react"
 import AuthModalInputs from "@/app/components/AuthModalInputs";
 import {signin} from "next-auth/core/routes";
 import useAuth from "@/hooks/useAuth";
+import {AuthenticationContext} from "@/app/context/AuthContext";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -21,6 +22,7 @@ const style = {
 };
 
 export default function AuthModal({isSignin}: {isSignin : boolean}) {
+    const {error, loading, setAuthState, data} = useContext(AuthenticationContext)
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);

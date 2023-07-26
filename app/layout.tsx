@@ -2,6 +2,7 @@ import './globals.css'
 import type {Metadata} from 'next'
 import {Inter} from 'next/font/google'
 import NavBar from "@/app/components/NavBar";
+import AuthContext from "@/app/context/AuthContext";
 
 const inter = Inter({subsets: ['latin']})
 
@@ -16,12 +17,15 @@ export default ({
     children: React.ReactNode
 }) => (
     <html lang="en">
+    <head/>
     <body className={inter.className}>
     <main className="bg-gray-100 min-h-screen w-screen">
-        <main className="max-w-screen-2xl m-auto bg-white">
-            <NavBar/>
-            {children}
-        </main>
+        <AuthContext>
+            <main className="max-w-screen-2xl m-auto bg-white">
+                <NavBar/>
+                {children}
+            </main>
+        </AuthContext>
     </main>
     </body>
     </html>
