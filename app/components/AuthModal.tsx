@@ -2,13 +2,12 @@
 
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import {useEffect, useState, useContext} from "react"
 import AuthModalInputs from "@/app/components/AuthModalInputs";
-import {signin} from "next-auth/core/routes";
 import useAuth from "@/hooks/useAuth";
 import {AuthenticationContext} from "@/app/context/AuthContext";
+import {Alert, CircularProgress} from "@mui/material";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -69,7 +68,7 @@ export default function AuthModal({isSignin}: {isSignin : boolean}) {
 
     const handleClick = () => {
         if(isSignin) {
-            signIn({email: inputs.email, password: inputs.password})
+            signIn({email: inputs.email, password: inputs.password}, handleClose)
         }
     }
 
@@ -85,7 +84,15 @@ export default function AuthModal({isSignin}: {isSignin : boolean}) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
+                    { loading ?
+                        <div className="py-24 px-2 h-[600px] flex justify-center">
+                            <CircularProgress />
+                        </div>
+                        :
                     <div className="p-2 h-[600px]">
+                        <Alert severity="error">
+                            {error}
+                        </Alert>
                         <div className="uppercase font-bold text-center pb-2 border-b mb-2">
                             <p className="text-sm">
                                 {renderContent("Sign In", "Create Account")}
@@ -101,7 +108,7 @@ export default function AuthModal({isSignin}: {isSignin : boolean}) {
                             </button>
                         </div>
                     </div>
-
+                    }
                 </Box>
             </Modal>
         </div>
